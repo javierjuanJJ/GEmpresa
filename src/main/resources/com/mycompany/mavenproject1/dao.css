@@ -1,0 +1,76 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.atras{
+    -fx-background-image: url("atras.jpg");
+    -fx-background-repeat: no-repeat;
+}
+.botones_principio_clientes{
+    -fx-background-color: #ff9966;
+}
+.botones_principio_articulos{
+    -fx-background-color: #ff99ff;
+}
+.fondo_principio{
+    -fx-background-color: #6aa539;
+}
+.fondo_grupo{
+    -fx-background-color: #ffd49d;
+}
+.fondo_clientes{
+    -fx-background-color: #2468a7;
+}
+
+.campos_texto_articulos{
+    -fx-background-color: #1f7ddb;
+}
+.Titulo_articulos{
+    -fx-background-color: #245b70;
+    -fx-font-size: 20px;
+}
+.Titulo_grupos{
+    -fx-background-color: #88e988;
+    -fx-font-size: 20px;
+}
+.Titulo_clientes{
+    -fx-background-color: #e29a85;
+    -fx-font-size: 20px;
+}
+.label_texto_articulos{
+    -fx-background-color: #22b18d;
+}
+.label_texto_principio{
+    -fx-background-color: #ebffa4;
+    -fx-font-size: 20px;
+}
+.label_texto_grupos{
+    -fx-background-color: #e6ffaa;
+}
+
+.label_texto_clientes{
+    -fx-background-color: #269c2c;
+}
+
+.fondo_articulos{
+    -fx-background-color: #a9b2ff;
+}
+.combobox_texto_articulos{
+    -fx-background-color: #ef9eff;
+}
+.campos_texto_clientes{
+    -fx-background-color: #6ab420;
+}
+.botones_clientes{
+    -fx-background-color: #b8ffa6;
+}
+.botones_articulos{
+    -fx-background-color: #a1bfff;
+}
+.boton_ir_a_grupos{
+    -fx-background-color: #ffd5a6;
+}
+.botones_grupos{
+    -fx-background-color: #fda1a1;
+}
+.campos_texto_grupos{
+    -fx-background-color: #f7ff88;
+}

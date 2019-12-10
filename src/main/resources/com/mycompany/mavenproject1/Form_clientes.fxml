@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane stylesheets="@dao.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.Controlador.ControladorFormularioClientes">
+   <children>
+      <AnchorPane prefHeight="336.0" prefWidth="639.0" styleClass="fondo_clientes" stylesheets="@dao.css">
+         <children>
+            <GridPane layoutY="100.0" prefHeight="191.0" prefWidth="282.0" stylesheets="@dao.css">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ComboBox fx:id="ComboBox_id_clientes" onAction="#poner_informacion_clientes" onMouseClicked="#actualizar_informacion_clientes" prefWidth="150.0" styleClass="campos_texto_clientes" stylesheets="@dao.css" GridPane.columnIndex="1" />
+                  <TextField fx:id="TextField_Nombre_clientes" styleClass="campos_texto_clientes" stylesheets="@dao.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="TextField_direccion" styleClass="campos_texto_clientes" stylesheets="@dao.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label styleClass="label_texto_clientes" stylesheets="@dao.css" text="Id" />
+                  <Label styleClass="label_texto_clientes" stylesheets="@dao.css" text="Nombre" GridPane.rowIndex="1" />
+                  <Label styleClass="label_texto_clientes" stylesheets="@dao.css" text="Dirección" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+            <Label alignment="CENTER" layoutX="16.0" layoutY="8.0" prefHeight="86.0" prefWidth="582.0" styleClass="Titulo_clientes" stylesheets="@dao.css" text="Formulario clientes" textAlignment="CENTER" />
+            <HBox layoutX="372.0" layoutY="100.0" prefHeight="25.0" prefWidth="243.0" stylesheets="@dao.css">
+               <children>
+                  <TextField fx:id="TextField_buscar_por_id_clientes" styleClass="campos_texto_clientes" stylesheets="@dao.css" />
+                  <Button fx:id="boton_buscar_por_id_clientes" mnemonicParsing="false" onAction="#Buscar_por_id" prefHeight="26.0" prefWidth="163.0" styleClass="botones_clientes" stylesheets="@dao.css" text="Buscar por ID" />
+               </children>
+            </HBox>
+            <HBox layoutX="67.0" layoutY="291.0" prefHeight="46.0" prefWidth="506.0" stylesheets="@dao.css">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#insertar_informacion_clientes" prefHeight="26.0" prefWidth="73.0" styleClass="botones_clientes" stylesheets="@dao.css" text="Añadir" />
+                  <Button mnemonicParsing="false" onAction="#actualizar_informacion" styleClass="botones_clientes" stylesheets="@dao.css" text="Actualizar" />
+                  <Button mnemonicParsing="false" onAction="#eliminar_informacion" styleClass="botones_clientes" stylesheets="@dao.css" text="Eliminar" />
+                  <Button id="Siguiente" fx:id="siguiente_clientes" mnemonicParsing="false" onAction="#cambiar_de_extremos" styleClass="botones_clientes" stylesheets="@dao.css" text="&gt;" />
+                  <Button id="Ultimo" fx:id="ultimo_clientes" mnemonicParsing="false" onAction="#cambiar_de_extremos" styleClass="botones_clientes" stylesheets="@dao.css" text="&gt;&gt;" />
+                  <Button id="Anterior" fx:id="anterior_clientes" mnemonicParsing="false" onAction="#cambiar_de_extremos" styleClass="botones_clientes" stylesheets="@dao.css" text="&lt;" />
+                  <Button id="Primero" fx:id="primero_clientes" mnemonicParsing="false" onAction="#cambiar_de_extremos" styleClass="botones_clientes" stylesheets="@dao.css" text="&lt;&lt;" />
+                  <Button id="Pantalla_Principio" mnemonicParsing="false" onAction="#Cambiar_Pantalla" prefHeight="35.0" prefWidth="27.0" styleClass="atras" stylesheets="@dao.css" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -105,12 +105,22 @@ public class Controlador_Perfil {
 			}
 
 		} else {
-			if ((((Contrasenya_nueva.equals(confirmar_Contrasenya_nueva))))
-					&& ((cliente_actual.getpasswd().equals(antigua_Contrasenya_nueva)))) {
+			if ((((Contrasenya_nueva.equals(confirmar_Contrasenya_nueva)))) && ((cliente_actual.getpasswd().equals(controladorclientes.desencriptar_contrasenya(antigua_Contrasenya_nueva))))) {
+                            System.out.print("ya");
 				cliente = new Clientes();
+                                cliente.setId(Integer.parseInt(id_cliente.getText()));
 				cliente.setDireccion(direccion);
 				cliente.setNombre(nombre_usuario);
 				cliente.setpasswd(controladorclientes.desencriptar_contrasenya(Contrasenya_nueva));
+                                
+                                
+                                try {
+                                    controladorclientes.update(cliente);
+
+                                } catch (Exception e) {
+                                        (new Main()).mensajeExcepcion(e, e.getMessage());
+                                }
+                                
 			}
 		}
 	}
@@ -128,7 +138,7 @@ public class Controlador_Perfil {
 		cliente.setpasswd(controladorclientes.desencriptar_contrasenya(Contrasenya_nueva));
 
 		if ((Contrasenya_nueva.equals(confirmar_Contrasenya_nueva)) && (!(nombre_usuario.equalsIgnoreCase("admin")))) {
-                    System.out.print("ya");
+                    
 			try {
 				controladorclientes.insert(cliente);
 

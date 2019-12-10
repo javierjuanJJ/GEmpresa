@@ -634,7 +634,6 @@ public class ControladorFormularioFacturas {
 		cantidad_antes = l2.getCantidad();
 		l2.setCantidad(cantidad);
 		l2.set_total_Importe();
-		//facturas.getItems().set(contador_modificador, l2);
 		double precio_total = 0.0;
 		facturas.getSelectionModel().select(contador_modificador);
 
@@ -722,8 +721,7 @@ public class ControladorFormularioFacturas {
 		try {
 
 			Lista_de_Facturas.clear();
-			Lista_de_Facturas
-					.addAll(controladorfacturas.findAll2(clientes_buscar.getSelectionModel().getSelectedItem()));
+			Lista_de_Facturas.addAll(controladorfacturas.findAll2(clientes_buscar.getSelectionModel().getSelectedItem()));
 			actualizar();
 			poner_datos_en_la_tabla(Lista_de_Facturas.get(0));
 

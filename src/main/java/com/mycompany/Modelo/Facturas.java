@@ -1,4 +1,4 @@
-package Modelo;
+package com.mycompany.Modelo;
 
 import java.util.Date;
 import java.util.ArrayList;

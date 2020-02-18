@@ -73,6 +73,10 @@ public class Main extends Application {
 		case "Pantalla_Consultas":
 			archivo.append("Consultas");
 			break;
+                case "Principio":
+			archivo.append("Principio");
+			break;
+                        
 		default:
 			break;
 		}

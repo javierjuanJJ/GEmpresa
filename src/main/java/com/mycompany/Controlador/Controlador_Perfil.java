@@ -1,8 +1,7 @@
 package com.mycompany.Controlador;
 
+import com.mycompany.Modelo.Clientes;
 import java.io.IOException;
-
-import Modelo.Clientes;
 import com.mycompany.mavenproject1.Main;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

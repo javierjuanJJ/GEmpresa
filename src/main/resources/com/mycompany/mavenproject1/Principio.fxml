@@ -25,8 +25,10 @@
             <PasswordField fx:id="contrasenya" layoutX="128.0" layoutY="186.0" />
             <TextField fx:id="nombre_usuario" layoutX="128.0" layoutY="147.0" />
             <Button fx:id="iniciar_sesion" layoutX="32.0" layoutY="249.0" mnemonicParsing="false" onAction="#Iniciar_sesion" text="Iniciar sesión" />
-            <Button id="Pantalla_Perfil" fx:id="registro" layoutX="327.0" layoutY="249.0" mnemonicParsing="false" onAction="#Cambiar_Pantalla" text="Registro" />
-            <Button id="Pantalla_Perfil" fx:id="perfil" layoutX="203.0" layoutY="249.0" mnemonicParsing="false" onAction="#Cambiar_Pantalla" text="Perfil" />
+            <Button id="Pantalla_Perfil" fx:id="registro" layoutX="340.0" layoutY="249.0" mnemonicParsing="false" onAction="#Cambiar_Pantalla" text="Registro" />
+            <Button id="Pantalla_Perfil" fx:id="perfil" layoutX="163.0" layoutY="249.0" mnemonicParsing="false" onAction="#Cambiar_Pantalla" text="Perfil" />
+            <Label fx:id="entrado_label" layoutX="16.0" layoutY="305.0" prefHeight="16.0" prefWidth="436.0" />
+            <Button fx:id="cerrar_sesion" layoutX="222.0" layoutY="249.0" mnemonicParsing="false" onAction="#cerrar_sesion" text="Cerrar sesion" />
          </children></AnchorPane>
    </children>
 </AnchorPane>

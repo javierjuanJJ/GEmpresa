@@ -30,19 +30,19 @@
             <Label fx:id="Cantidad" layoutX="235.0" layoutY="561.0" text="Cantidad" />
             <HBox layoutX="74.0" layoutY="520.0" prefHeight="26.0" prefWidth="279.0">
                <children>
-                  <Button id="Primero" mnemonicParsing="false" onAction="#poner_datos_controles" text="&lt;&lt;" />
-                  <Button id="Anterior" mnemonicParsing="false" onAction="#poner_datos_controles" text="&lt;" />
-                  <Button id="Siguiente" mnemonicParsing="false" onAction="#poner_datos_controles" text="&gt;" />
-                  <Button id="Ultimo" mnemonicParsing="false" onAction="#poner_datos_controles" text="&gt;&gt;" />
+                  <Button id="Primero" fx:id="atras_del_todo_facturas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&lt;&lt;" />
+                  <Button id="Anterior" fx:id="atras_facturas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&lt;" />
+                  <Button id="Siguiente" fx:id="delante_facturas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&gt;" />
+                  <Button id="Ultimo" fx:id="delante_del_todo_facturas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&gt;&gt;" />
                   <Label text=" Facturas" />
                </children>
             </HBox>
             <HBox layoutX="419.0" layoutY="520.0" prefHeight="26.0" prefWidth="288.0">
                <children>
-                  <Button id="Primero_lineas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&lt;&lt;" />
-                  <Button id="Anterior_lineas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&lt;" />
-                  <Button id="Siguiente_lineas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&gt;" />
-                  <Button id="Ultimo_lineas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&gt;&gt;" />
+                  <Button id="Primero_lineas" fx:id="atras_del_todo_lineas_facturas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&lt;&lt;" />
+                  <Button id="Anterior_lineas" fx:id="atras_lineas_facturas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&lt;" />
+                  <Button id="Siguiente_lineas" fx:id="delante_lineas_facturas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&gt;" />
+                  <Button id="Ultimo_lineas" fx:id="delante_del_todo_lineas_facturas" mnemonicParsing="false" onAction="#poner_datos_controles" text="&gt;&gt;" />
                   <Label text=" Lineas facturas" />
                </children>
             </HBox>
@@ -91,8 +91,8 @@
             <Button fx:id="boton_actualizar" layoutX="531.0" layoutY="556.0" mnemonicParsing="false" onAction="#actualizar_linea" text="Actualizar" />
             <Button id="Pantalla_Principio" layoutX="16.0" layoutY="599.0" mnemonicParsing="false" onAction="#Cambiar_Pantalla" text="Atras" />
             <Button fx:id="anyadir_linea" layoutX="74.0" layoutY="599.0" mnemonicParsing="false" onAction="#insertar_linea" text="Añadir linea de factura" />
-            <Button layoutX="250.0" layoutY="599.0" mnemonicParsing="false" onAction="#insertar_linea_a_factura_existente" text="Nueva factura" />
-            <Button layoutX="365.0" layoutY="599.0" mnemonicParsing="false" onAction="#eliminar_linea_a_factura_existente" text="Eliminar línea" />
+            <Button fx:id="nueva_factura" layoutX="250.0" layoutY="599.0" mnemonicParsing="false" onAction="#insertar_linea_a_factura_existente" text="Nueva factura" />
+            <Button fx:id="eliminar_linea_boton" layoutX="365.0" layoutY="599.0" mnemonicParsing="false" onAction="#eliminar_linea_a_factura_existente" text="Eliminar línea" />
             <Button fx:id="insertar_linea" layoutX="482.0" layoutY="599.0" mnemonicParsing="false" onAction="#insertar_factura" text="Insertar factura" />
             <Button fx:id="eliminar_linea" layoutX="608.0" layoutY="599.0" mnemonicParsing="false" onAction="#eliminar_factura" text="Eliminar" />
          </children>

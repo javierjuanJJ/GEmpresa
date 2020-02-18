@@ -1,5 +1,6 @@
 package com.mycompany.Controlador;
 
+import com.mycompany.Modelo.Clientes;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -9,17 +10,26 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import Modelo.Clientes;
 import javafx.application.Platform;
 
 public class ClientesDAO implements GenericoDAO<Clientes> {
 
-	protected static final String sql_select_by_PK = "SELECT * FROM v_empresa_ad_p1.clientes WHERE id=?;";
-	protected static final String sql_select_all = "SELECT * FROM v_empresa_ad_p1.clientes;";
-	protected static final String sql_UPDATE = "UPDATE `v_empresa_ad_p1`.`clientes` SET `nombre`=?, `direccion`=?, `passwd`=? WHERE `id`=?;";
+	protected static final String sql_select_by_PK = "SELECT * FROM "
+                + Conexion.nombre_base_datos
+                + ".clientes WHERE id=?;";
+	protected static final String sql_select_all = "SELECT * FROM "
+                + Conexion.nombre_base_datos
+                + ".clientes;";
+	protected static final String sql_UPDATE = "UPDATE `"
+                + Conexion.nombre_base_datos
+                + "`.`clientes` SET `nombre`=?, `direccion`=?, `passwd`=? WHERE `id`=?;";
 	
-	protected static final String sql_INSERT = "INSERT INTO `v_empresa_ad_p1`.`clientes` (`nombre`, `direccion`, `passwd`) VALUES (?, ?, ?);";
-	protected static final String sql_DELETE = "DELETE FROM `v_empresa_ad_p1`.`clientes` WHERE `id`=?;";
+	protected static final String sql_INSERT = "INSERT INTO `"
+                + Conexion.nombre_base_datos
+                + "`.`clientes` (`nombre`, `direccion`, `passwd`) VALUES (?, ?, ?);";
+	protected static final String sql_DELETE = "DELETE FROM `"
+                + Conexion.nombre_base_datos
+                + "`.`clientes` WHERE `id`=?;";
 	public static PreparedStatement preparedstatement = null;
 	
 	public ClientesDAO() {

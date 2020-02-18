@@ -1,4 +1,4 @@
-package Modelo;
+package com.mycompany.Modelo;
 
 public class Articulos {
 	private int id;

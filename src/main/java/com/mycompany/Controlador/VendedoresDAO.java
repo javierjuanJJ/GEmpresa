@@ -1,17 +1,17 @@
 package com.mycompany.Controlador;
 
+import com.mycompany.Modelo.Vendedores;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
-import Modelo.Facturas;
-import Modelo.Vendedores;
 import javafx.application.Platform;
 
 public class VendedoresDAO implements GenericoDAO<Vendedores> {
 
-	protected static final String sql_select_all = "SELECT * FROM v_empresa_ad_p1.vendedores;";
+	protected static final String sql_select_all = "SELECT * FROM "
+                + Conexion.nombre_base_datos
+                + ".vendedores;";
 	
 	public static PreparedStatement preparedstatement = null;
 	

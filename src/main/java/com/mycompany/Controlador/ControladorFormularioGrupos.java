@@ -1,5 +1,6 @@
 package com.mycompany.Controlador;
 
+import com.mycompany.Modelo.Grupos;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,9 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import Modelo.Articulos;
-import Modelo.Grupos;
 import com.mycompany.mavenproject1.Main;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

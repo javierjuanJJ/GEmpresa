@@ -599,7 +599,7 @@ public class ControladorFormularioFacturas {
     }
 
     public void insertar_linea() {
-
+        int factura_numero = contador_modificador;
         try {
             int id_factura = Integer.parseInt(this.numero_factura.getText());
             if (id_factura == 0) {
@@ -705,7 +705,10 @@ public class ControladorFormularioFacturas {
                 total_de_la_factura
                         .setText(String.valueOf(((Factura_a_crear.getTotal() * 21) / 100) + Factura_a_crear.getTotal()));
                 formas_de_pago.getSelectionModel().select(Factura_a_crear.getForma_de_pago());
-                Cargar_facturas();
+                buscar_facturas_por_cliente();
+                contador_modificador = factura_numero;
+                poner_datos();
+                actualizar();
             }
 
         } catch (NumberFormatException e) {
@@ -734,7 +737,7 @@ public class ControladorFormularioFacturas {
     }
 
     public void eliminar_linea_a_factura_existente() {
-
+        int factura_numero = contador_modificador;
         try {
             Facturas factura = new Facturas(Lista_de_Facturas.get(contador_modificador));
             Lineas_Facturas linea_factura = new Lineas_Facturas(
@@ -744,7 +747,12 @@ public class ControladorFormularioFacturas {
                     + " AND factura=" + factura.getId() + ";";
 
             controladorfacturas.FindBySQL(query_sql);
-            Cargar_facturas();
+
+            buscar_facturas_por_cliente();
+
+            contador_modificador = factura_numero;
+            poner_datos();
+            actualizar();
             poner_datos_en_la_tabla(Lista_de_Facturas.get(contador_modificador));
 
         } catch (Exception e) {

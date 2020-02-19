@@ -189,8 +189,6 @@ public class ControladorFormularioFacturas {
             buscar_facturas_texto.setVisible(es_admin);
             clientes_buscar.setVisible(es_admin);
             buscar_facturas.setVisible(es_admin);
-            //clientes_buscar.setDisable(es_admin);
-            //buscar_facturas.setDisable(es_admin);
 
             Articulo.setVisible(es_admin);
             cambiar_articulo.setVisible(es_admin);
@@ -228,7 +226,6 @@ public class ControladorFormularioFacturas {
                     contador_modificador = 0;
                     poner_datos();
                     actualizar();
-                    //poner_datos_en_la_tabla(Lista_de_Facturas.get(0));
 
                 } catch (Exception e) {
                     poner_datos_en_la_tabla(new Facturas());
@@ -238,6 +235,7 @@ public class ControladorFormularioFacturas {
             } else {
 
                 contador_modificador = 0;
+                facturas.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                 poner_datos();
                 actualizar();
             }
@@ -408,85 +406,85 @@ public class ControladorFormularioFacturas {
 
     public void Exportar_factura_a_PDF() {
         Facturas factura = new Facturas(Lista_de_Facturas.get(contador_modificador));
-
         FileChooser fc = creaFileChooser("Guardar pdf");
         File file = (fc.showSaveDialog(escenario));
 
-        // Se crea el documento
-        Document documento = new Document();
+        if (file != null) {
+            // Se crea el documento
+            Document documento = new Document();
 
-        // Se crea el OutputStream para el fichero donde queremos dejar el pdf.
-        FileOutputStream ficheroPdf;
-        try {
-            ficheroPdf = new FileOutputStream(file);
-            // Se asocia el documento al OutputStream y se indica que el espaciado entre
-            // lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
-            PdfWriter.getInstance(documento, ficheroPdf).setInitialLeading(20);
+            // Se crea el OutputStream para el fichero donde queremos dejar el pdf.
+            FileOutputStream ficheroPdf;
+            try {
+                ficheroPdf = new FileOutputStream(file);
+                // Se asocia el documento al OutputStream y se indica que el espaciado entre
+                // lineas sera de 20. Esta llamada debe hacerse antes de abrir el documento
+                PdfWriter.getInstance(documento, ficheroPdf).setInitialLeading(20);
 
-            // Se abre el documento.
-            documento.open();
+                // Se abre el documento.
+                documento.open();
 
-            documento.add(new Paragraph("Factura", FontFactory.getFont("arial", // fuente
-                    22, // tamaño
-                    Font.ITALIC, // estilo
-                    BaseColor.CYAN))); // color
+                documento.add(new Paragraph("Factura", FontFactory.getFont("arial", // fuente
+                        22, // tamaño
+                        Font.ITALIC, // estilo
+                        BaseColor.CYAN))); // color
 
-            documento.add(new Paragraph("Facturar a         Enviar a           Nº de factura          "
-                    + factura.getId() + System.lineSeparator()));
-            documento.add(new Paragraph(
-                    factura.getCliente().getNombre() + "       " + "         " + factura.getVendedor().getNombre()
-                    + "         " + "         " + factura.getFecha().toString() + System.lineSeparator()));
-            documento.add(new Paragraph(
-                    factura.getCliente().getDireccion() + "         " + "         " + System.lineSeparator()));
+                documento.add(new Paragraph("Facturar a         Enviar a           Nº de factura          "
+                        + factura.getId() + System.lineSeparator()));
+                documento.add(new Paragraph(
+                        factura.getCliente().getNombre() + "       " + "         " + factura.getVendedor().getNombre()
+                        + "         " + "         " + factura.getFecha().toString() + System.lineSeparator()));
+                documento.add(new Paragraph(
+                        factura.getCliente().getDireccion() + "         " + "         " + System.lineSeparator()));
 
-            documento.add(new Paragraph(System.lineSeparator()));
-            documento.add(new Paragraph(System.lineSeparator()));
-            documento.add(new Paragraph(System.lineSeparator()));
-            documento.add(new Paragraph(System.lineSeparator()));
-            documento.add(new Paragraph(System.lineSeparator()));
-            documento.add(new Paragraph(System.lineSeparator()));
-            PdfPTable tabla = new PdfPTable(4);
-            int columnas = (factura.getLineas_de_la_factura().size());
+                documento.add(new Paragraph(System.lineSeparator()));
+                documento.add(new Paragraph(System.lineSeparator()));
+                documento.add(new Paragraph(System.lineSeparator()));
+                documento.add(new Paragraph(System.lineSeparator()));
+                documento.add(new Paragraph(System.lineSeparator()));
+                documento.add(new Paragraph(System.lineSeparator()));
+                PdfPTable tabla = new PdfPTable(4);
+                int columnas = (factura.getLineas_de_la_factura().size());
 
-            tabla.addCell("Cantidad");
-            tabla.addCell("Descripcion");
-            tabla.addCell("Precio unitario");
-            tabla.addCell("Importe");
-            double precio_total = 0.0;
+                tabla.addCell("Cantidad");
+                tabla.addCell("Descripcion");
+                tabla.addCell("Precio unitario");
+                tabla.addCell("Importe");
+                double precio_total = 0.0;
 
-            for (int i = 0; i < columnas; i++) {
-                tabla.addCell(factura.getLineas_de_la_factura().get(i).getCantidad() + "");
-                tabla.addCell(factura.getLineas_de_la_factura().get(i).getArticulo().toString());
-                tabla.addCell(factura.getLineas_de_la_factura().get(i).getImporte() + "");
-                tabla.addCell(factura.getLineas_de_la_factura().get(i).getTotal_importe() + "");
-                precio_total += factura.getLineas_de_la_factura().get(i).getTotal_importe();
+                for (int i = 0; i < columnas; i++) {
+                    tabla.addCell(factura.getLineas_de_la_factura().get(i).getCantidad() + "");
+                    tabla.addCell(factura.getLineas_de_la_factura().get(i).getArticulo().toString());
+                    tabla.addCell(factura.getLineas_de_la_factura().get(i).getImporte() + "");
+                    tabla.addCell(factura.getLineas_de_la_factura().get(i).getTotal_importe() + "");
+                    precio_total += factura.getLineas_de_la_factura().get(i).getTotal_importe();
+                }
+
+                tabla.addCell("");
+                tabla.addCell("");
+                tabla.addCell("Subtotal");
+                tabla.addCell(precio_total + "");
+
+                tabla.addCell("");
+                tabla.addCell("");
+                tabla.addCell("IVA: 21%");
+                tabla.addCell((precio_total * 21 / 100) + "");
+
+                tabla.addCell("");
+                tabla.addCell("");
+                tabla.addCell("Total: ");
+                tabla.addCell((precio_total + (precio_total * 21 / 100)) + "");
+
+                documento.add(tabla);
+
+            } catch (FileNotFoundException e) {
+
+            } catch (DocumentException e) {
+
             }
 
-            tabla.addCell("");
-            tabla.addCell("");
-            tabla.addCell("Subtotal");
-            tabla.addCell(precio_total + "");
-
-            tabla.addCell("");
-            tabla.addCell("");
-            tabla.addCell("IVA: 21%");
-            tabla.addCell((precio_total * 21 / 100) + "");
-
-            tabla.addCell("");
-            tabla.addCell("");
-            tabla.addCell("Total: ");
-            tabla.addCell((precio_total + (precio_total * 21 / 100)) + "");
-
-            documento.add(tabla);
-
-        } catch (FileNotFoundException e) {
-
-        } catch (DocumentException e) {
-
+            documento.close();
         }
-
-        documento.close();
-
     }
 
     private FileChooser creaFileChooser(String titulo) {
@@ -513,6 +511,7 @@ public class ControladorFormularioFacturas {
                 factura(factura);
                 poner_datos_en_la_tabla(factura);
             } else {
+                contador_modificador = facturas.getSelectionModel().getSelectedIndex();
                 poner_datos_en_la_tabla();
             }
 

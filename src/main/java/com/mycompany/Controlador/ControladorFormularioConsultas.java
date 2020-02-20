@@ -232,14 +232,7 @@ public class ControladorFormularioConsultas {
                     + ".vendedores.id as vendedor, "
                     + nombre_base_datos
                     + ".vendedores.nombre as nombre";
-            query.append("SELECT " + ((es_admin) ? campos_admin : campos_otros_admin)
-                    + " FROM "
-                    + nombre_base_datos
-                    + ".facturas, "
-                    + nombre_base_datos
-                    + ".clientes , "
-                    + nombre_base_datos
-                    + ".vendedores WHERE facturas.cliente=clientes.id AND facturas.vendedor=vendedores.id ");
+            StringBuilder append = query.append("SELECT ").append((es_admin) ? campos_admin : campos_otros_admin).append(" FROM ").append(nombre_base_datos).append(".facturas, ").append(nombre_base_datos).append(".clientes , ").append(nombre_base_datos).append(".vendedores WHERE facturas.cliente=clientes.id AND facturas.vendedor=vendedores.id ");
 
             part = (checkbox_factura.isSelected()) ? "and (facturas.id >= "
                     + this.combobox_factura_desde.getSelectionModel().getSelectedItem().getId() + " and facturas.id <= "
@@ -281,7 +274,6 @@ public class ControladorFormularioConsultas {
             double numero_hasta = 0.0;
             @SuppressWarnings("static-access")
             ArrayList campos = controladorfacturas.campos;
-
             Facturas_recibidas.addAll(controladorfacturas.findBySQL(query.toString()));
 
             if (es_admin) {
@@ -297,23 +289,23 @@ public class ControladorFormularioConsultas {
                     tabla_consulta2.getColumns()
                             .add(new TableColumn<Clientes, String>(campos.get(contador).toString()));
                 }
-
+                //System.out.println(FacturasDAO.campos.get(0));
                 ((TableColumn<Facturas, String>) tabla_consulta.getColumns().get(0))
-                        .setCellValueFactory(new PropertyValueFactory<>(controladorfacturas.campos.get(0)));
+                        .setCellValueFactory(new PropertyValueFactory<>(FacturasDAO.campos.get(0)));
                 ((TableColumn<Facturas, String>) tabla_consulta.getColumns().get(1))
-                        .setCellValueFactory(new PropertyValueFactory<>(controladorfacturas.campos.get(1)));
+                        .setCellValueFactory(new PropertyValueFactory<>(FacturasDAO.campos.get(1)));
                 ((TableColumn<Facturas, String>) tabla_consulta.getColumns().get(2))
-                        .setCellValueFactory(new PropertyValueFactory<>(controladorfacturas.campos.get(2)));
-
+                        .setCellValueFactory(new PropertyValueFactory<>(FacturasDAO.campos.get(2)));
+//System.out.println(FacturasDAO.campos.get(3));
                 ((TableColumn<Clientes, String>) tabla_consulta1.getColumns().get(0))
-                        .setCellValueFactory(new PropertyValueFactory<>(controladorfacturas.campos.get(3)));
+                        .setCellValueFactory(new PropertyValueFactory<>("id"));
                 ((TableColumn<Clientes, String>) tabla_consulta1.getColumns().get(1))
-                        .setCellValueFactory(new PropertyValueFactory<>(controladorfacturas.campos.get(4)));
-
+                        .setCellValueFactory(new PropertyValueFactory<>(FacturasDAO.campos.get(4)));
+//System.out.println(FacturasDAO.campos.get(5));
                 ((TableColumn<Vendedores, String>) tabla_consulta2.getColumns().get(0))
-                        .setCellValueFactory(new PropertyValueFactory<>(controladorfacturas.campos.get(5)));
+                        .setCellValueFactory(new PropertyValueFactory<>("id"));
                 ((TableColumn<Vendedores, String>) tabla_consulta2.getColumns().get(1))
-                        .setCellValueFactory(new PropertyValueFactory<>(controladorfacturas.campos.get(6)));
+                        .setCellValueFactory(new PropertyValueFactory<>(FacturasDAO.campos.get(6)));
 
                 boolean cantidad = this.checkbox_cantidad.isSelected();
                 if (cantidad) {
@@ -323,20 +315,23 @@ public class ControladorFormularioConsultas {
                         Facturas factura = new Facturas(Facturas_recibidas.get(contador));
                         factura.calcular_total_factura();
                         if (((factura.getTotal() >= numero_desde) && (factura.getTotal() <= numero_hasta))) {
-                            tabla_consulta.getItems().add(contador, factura);
-                            tabla_consulta1.getItems().add(contador, factura.getCliente());
-                            tabla_consulta2.getItems().add(contador, factura.getVendedor());
+                            tabla_consulta.getItems().add(factura);
+                            tabla_consulta1.getItems().add(factura.getCliente());
+                            tabla_consulta2.getItems().add(factura.getVendedor());
                         }
                     }
                 } else {
                     for (int contador = 0; contador < Facturas_recibidas.size(); contador++) {
                         Facturas factura = new Facturas(Facturas_recibidas.get(contador));
                         factura.calcular_total_factura();
-                        tabla_consulta.getItems().add(contador, factura);
-                        tabla_consulta1.getItems().add(contador, factura.getCliente());
-                        tabla_consulta2.getItems().add(contador, factura.getVendedor());
+                        tabla_consulta.getItems().add(factura);
+                        tabla_consulta1.getItems().add(factura.getCliente());
+                        tabla_consulta2.getItems().add(factura.getVendedor());
                     }
                 }
+                tabla_consulta.refresh();
+                tabla_consulta1.refresh();
+                tabla_consulta2.refresh();
             } else {
                 for (int contador = 0; contador < 3; contador++) {
                     tabla_consulta.getColumns().add(new TableColumn<String, String>(campos.get(contador).toString()));

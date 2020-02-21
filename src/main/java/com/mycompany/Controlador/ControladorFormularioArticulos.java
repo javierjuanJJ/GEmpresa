@@ -82,7 +82,8 @@ public class ControladorFormularioArticulos {
             controladorarticulos = new ArticulosDAO();
             Lista_de_articulos = controladorarticulos.findAll();
             Lista_de_grupos = controladorarticulos.findAll_grupos();
-
+            ComboBox_id_articulos.getItems().setAll(Lista_de_articulos);
+            poner_informacion(Lista_de_articulos.get(0));
         } catch (Exception e) {
 
             Platform.exit();
@@ -195,10 +196,7 @@ public class ControladorFormularioArticulos {
         Articulos articulo_seleccionado = null;
         try {
             articulo_seleccionado = controladorarticulos.findByPK(Integer.parseInt(TextField_buscar_por_id_articulos.getText()));
-
-            ComboBox_id_articulos.getItems().clear();
-            ComboBox_id_articulos.getItems().add(controladorarticulos.findByPK(articulo_seleccionado.getId()));
-            ComboBox_id_articulos.getSelectionModel().select(0);
+            ComboBox_id_articulos.getSelectionModel().select(articulo_seleccionado);
 
         } catch (Exception e) {
             poner_informacion(new Articulos());
@@ -210,12 +208,10 @@ public class ControladorFormularioArticulos {
 
         try {
             TextField_Nombre_articulos.setText(articulo.getNombre());
-            ComboBox_grupos_articulos.getItems().clear();
-            ComboBox_grupos_articulos.getItems().add(controladorarticulos.findByPK_grupos(articulo.getGrupo()));
-            ComboBox_grupos_articulos.getSelectionModel().select(0);
+            ComboBox_grupos_articulos.getSelectionModel().select(controladorarticulos.findByPK_grupos(articulo.getGrupo()));
             TextField_precio_articulos.setText(articulo.getPrecio() + "");
-            ComboBox_codigo_articulos.setPromptText(articulo.getCodigo());
             stock.setText(articulo.getStock() + "");
+            ComboBox_id_articulos.getSelectionModel().select(articulo);
         } catch (Exception e) {
 
         }
@@ -309,7 +305,7 @@ public class ControladorFormularioArticulos {
             poner_informacion(articulo);
 
         } catch (Exception e) {
-            (new Main()).mensajeExcepcion(e, e.getMessage());
+            posicion = 0;
         }
 
     }

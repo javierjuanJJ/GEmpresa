@@ -156,6 +156,8 @@ public class ControladorFormularioFacturas {
     private Button delante_lineas_facturas;
     @FXML
     private Button delante_del_todo_lineas_facturas;
+    @FXML
+    private Button boton_consultar;
 
     @FXML
     public void initialize() {
@@ -210,6 +212,7 @@ public class ControladorFormularioFacturas {
             delante_del_todo_lineas_facturas.setVisible(es_admin);
             buscar_facturas.setVisible(es_admin);
             ComboBox_Facturas.setVisible(es_admin);
+            boton_consultar.setVisible(es_admin);
 
             Cargar_facturas();
 

@@ -53,7 +53,7 @@ public class ArticulosDAO implements GenericoDAO<Articulos> {
         Articulos articulo_recibido = null;
 
         ResultSet resultset = null;
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_select_by_PK);
+        preparedstatement = conexion.prepareStatement(sql_select_by_PK);
         preparedstatement.setInt(1, id);
         resultset = preparedstatement.executeQuery();
         resultset.first();
@@ -68,7 +68,7 @@ public class ArticulosDAO implements GenericoDAO<Articulos> {
     public Grupos findByPK_grupos(int id) throws Exception {
         Grupos articulo_recibido = null;
         ResultSet resultset = null;
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_select_by_PK_grupos);
+        preparedstatement = conexion.prepareStatement(sql_select_by_PK_grupos);
         preparedstatement.setInt(1, id);
         resultset = preparedstatement.executeQuery();
         resultset.first();
@@ -81,7 +81,7 @@ public class ArticulosDAO implements GenericoDAO<Articulos> {
         List<Articulos> articulos_recibidos = null;
         articulos_recibidos = new ArrayList<Articulos>();
         ResultSet resultset = null;
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_select_all);
+        preparedstatement = conexion.prepareStatement(sql_select_all);
         resultset = preparedstatement.executeQuery();
 
         while (resultset.next()) {
@@ -97,7 +97,7 @@ public class ArticulosDAO implements GenericoDAO<Articulos> {
         List<Grupos> grupos_recibidos = new ArrayList<Grupos>();
 
         ResultSet resultset = null;
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_select_all_grupos);
+        preparedstatement = conexion.prepareStatement(sql_select_all_grupos);
         resultset = preparedstatement.executeQuery();
 
         while (resultset.next()) {
@@ -114,7 +114,7 @@ public class ArticulosDAO implements GenericoDAO<Articulos> {
     public boolean insert(Articulos t) throws Exception {
         int salida = 0;
         boolean resultado = false;
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_INSERT);
+        preparedstatement = conexion.prepareStatement(sql_INSERT);
         preparedstatement.setString(1, t.getNombre());
         preparedstatement.setDouble(2, t.getPrecio());
         preparedstatement.setString(3, t.getCodigo());
@@ -133,7 +133,7 @@ public class ArticulosDAO implements GenericoDAO<Articulos> {
         int salida = 0;
         boolean resultado = false;
 
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_UPDATE);
+        preparedstatement = conexion.prepareStatement(sql_UPDATE);
         preparedstatement.setString(1, t.getNombre());
         preparedstatement.setDouble(2, t.getPrecio());
         preparedstatement.setString(3, t.getCodigo());
@@ -155,7 +155,7 @@ public class ArticulosDAO implements GenericoDAO<Articulos> {
         int salida = 0;
         boolean resultado = false;
 
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_DELETE);
+        preparedstatement = conexion.prepareStatement(sql_DELETE);
         preparedstatement.setInt(1, id);
         salida = preparedstatement.executeUpdate();
 
@@ -171,7 +171,7 @@ public class ArticulosDAO implements GenericoDAO<Articulos> {
         int salida = 0;
         boolean resultado = false;
 
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_INSERT_GRUPO);
+        preparedstatement = conexion.prepareStatement(sql_INSERT_GRUPO);
         preparedstatement.setString(1, t.getDescripcion());
         salida = preparedstatement.executeUpdate();
 
@@ -183,7 +183,7 @@ public class ArticulosDAO implements GenericoDAO<Articulos> {
     }
 
     public String insert_batch(ArrayList<Articulos> t) throws Exception {
-        Conexion.getConnection().setAutoCommit(false);
+        conexion.setAutoCommit(false);
         preparedstatement = conexion.prepareStatement(sql_INSERT);
         int[] Salidas = new int[t.size()];
         String errores = "";

@@ -5,6 +5,7 @@ import com.mycompany.Modelo.Clientes;
 import com.mycompany.Modelo.Facturas;
 import com.mycompany.Modelo.Lineas_Facturas;
 import com.mycompany.Modelo.Vendedores;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -79,10 +80,11 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
 
     public static PreparedStatement preparedstatement = null;
     public static ArrayList<String> campos = null;
+    private static Connection conexion;
 
     public FacturasDAO() {
         try {
-            Conexion.getConnection();
+            conexion = Conexion.getConnection();
 
         } catch (Exception e) {
 
@@ -101,7 +103,7 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
         ResultSet resultset = null;
         ResultSet resultset_lineas = null;
         PreparedStatement preparedstatement_lineas = null;
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_select_all);
+        preparedstatement = conexion.prepareStatement(sql_select_all);
         resultset = preparedstatement.executeQuery();
 
         Facturas factura = null;
@@ -122,7 +124,7 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
             factura.getVendedor().setFecha_ingreso(resultset.getDate(12));
             factura.getVendedor().setSalario(resultset.getDouble(13));
 
-            preparedstatement_lineas = Conexion.getConnection().prepareStatement(sql_Lineas_factura);
+            preparedstatement_lineas = conexion.prepareStatement(sql_Lineas_factura);
             preparedstatement_lineas.setInt(1, factura.getId());
             resultset_lineas = preparedstatement_lineas.executeQuery();
 
@@ -151,7 +153,7 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
         ResultSet resultset = null;
         ResultSet resultset_lineas = null;
         PreparedStatement preparedstatement_lineas = null;
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_select_by_PK_user);
+        preparedstatement = conexion.prepareStatement(sql_select_by_PK_user);
         preparedstatement.setInt(1, cliente.getId());
         resultset = preparedstatement.executeQuery();
         Facturas factura = null;
@@ -170,7 +172,7 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
             factura.getVendedor().setNombre(resultset.getString(11));
             factura.getVendedor().setFecha_ingreso(resultset.getDate(12));
             factura.getVendedor().setSalario(resultset.getDouble(13));
-            preparedstatement_lineas = Conexion.getConnection().prepareStatement(sql_Lineas_factura);
+            preparedstatement_lineas = conexion.prepareStatement(sql_Lineas_factura);
             preparedstatement_lineas.setInt(1, factura.getId());
             resultset_lineas = preparedstatement_lineas.executeQuery();
 
@@ -292,12 +294,12 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
 
     public void FindBySQL(String sqlselect) throws Exception {
         try {
-            Conexion.getConnection().setAutoCommit(false);
-            preparedstatement = Conexion.getConnection().prepareStatement(sqlselect);
+            conexion.setAutoCommit(false);
+            preparedstatement = conexion.prepareStatement(sqlselect);
             preparedstatement.executeUpdate();
-            Conexion.getConnection().commit();
+            conexion.commit();
         } catch (SQLException e) {
-            Conexion.getConnection().rollback();
+            conexion.rollback();
         }
     }
 
@@ -305,8 +307,8 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
         boolean realizado = true;
 
         try {
-            Conexion.getConnection().setAutoCommit(false);
-            preparedstatement = Conexion.getConnection().prepareStatement("SELECT MAX(id) FROM "
+            conexion.setAutoCommit(false);
+            preparedstatement = conexion.prepareStatement("SELECT MAX(id) FROM "
                     + Conexion.nombre_base_datos
                     + ".facturas;");
             ResultSet id_maxima = preparedstatement.executeQuery();
@@ -315,16 +317,16 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
             while (id_maxima.next()) {
                 id_de_factura = (id_maxima.getInt(1)) + 1;
             }
-            preparedstatement = Conexion.getConnection().prepareStatement(sql_INSERT);
+            preparedstatement = conexion.prepareStatement(sql_INSERT);
             preparedstatement.setDate(1, (Date) t.getFecha());
             preparedstatement.setInt(2, t.getCliente().getId());
             preparedstatement.setInt(3, t.getVendedor().getId());
             preparedstatement.setString(4, t.getForma_de_pago());
             preparedstatement.addBatch();
             preparedstatement.executeBatch();
-            Conexion.getConnection().commit();
+            conexion.commit();
 
-            preparedstatement = Conexion.getConnection().prepareStatement(sql_insert_Lineas_factura);
+            preparedstatement = conexion.prepareStatement(sql_insert_Lineas_factura);
 
             for (int contador = 0; contador < t.getLineas_de_la_factura().size(); contador++) {
                 preparedstatement.setInt(1, id_de_factura);
@@ -336,7 +338,7 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
             }
 
             int[] resultados = preparedstatement.executeBatch();
-            Conexion.getConnection().commit();
+            conexion.commit();
             for (int contador = 0; contador < resultados.length; contador++) {
                 if (resultados[contador] <= 0) {
                     realizado = false;
@@ -345,7 +347,7 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
                 }
             }
         } catch (SQLException e) {
-            Conexion.getConnection().rollback();
+            conexion.rollback();
             e.printStackTrace();
         }
         return realizado;
@@ -355,8 +357,8 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
         boolean realizado = true;
 
         try {
-            
-            preparedstatement = Conexion.getConnection().prepareStatement(sql_insert_Lineas_factura);
+
+            preparedstatement = conexion.prepareStatement(sql_insert_Lineas_factura);
             preparedstatement.setInt(1, id_factura);
             preparedstatement.setDouble(2, t.getArticulo().getId());
             preparedstatement.setInt(3, t.getCantidad());
@@ -364,10 +366,9 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
             preparedstatement.setDouble(5, t.getLinea());
             preparedstatement.executeUpdate();
             //"SELECT * FROM v_empresa_ad_p1.lineas_factura ORDER by linea DESC, factura DESC LIMIT 1"
-            
-		
+
         } catch (SQLException e) {
-            Conexion.getConnection().rollback();
+            conexion.rollback();
         }
         return realizado;
     }
@@ -376,9 +377,9 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
         boolean realizado = true;
 
         try {
-            Conexion.getConnection().setAutoCommit(false);
+            conexion.setAutoCommit(false);
 
-            preparedstatement = Conexion.getConnection().prepareStatement(sql_actualizar_factura);
+            preparedstatement = conexion.prepareStatement(sql_actualizar_factura);
 
             preparedstatement.setDate(1, (Date) t.getFecha());
             preparedstatement.setInt(2, t.getCliente().getId());
@@ -389,9 +390,9 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
             System.out.println(t.getCliente() + " " + t.getCliente().getId());
 
             preparedstatement.executeBatch();
-            Conexion.getConnection().commit();
+            conexion.commit();
 
-            preparedstatement = Conexion.getConnection().prepareStatement(sql_actualizar_linea_factura);
+            preparedstatement = conexion.prepareStatement(sql_actualizar_linea_factura);
 
             for (int contador = 0; contador < t.getLineas_de_la_factura().size(); contador++) {
                 preparedstatement.setInt(1, t.getLineas_de_la_factura().get(contador).getArticulo().getId());
@@ -403,7 +404,7 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
             }
 
             int[] resultados = preparedstatement.executeBatch();
-            Conexion.getConnection().commit();
+            conexion.commit();
             for (int contador = 0; contador < resultados.length; contador++) {
                 if (resultados[contador] <= 0) {
                     realizado = false;
@@ -411,7 +412,7 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
                 }
             }
         } catch (SQLException e) {
-            Conexion.getConnection().rollback();
+            conexion.rollback();
             e.printStackTrace();
         }
         return realizado;
@@ -422,10 +423,10 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
         int realizado = 0;
         int realizado2 = 0;
 
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_DELETE_Lineas_facturas);
+        preparedstatement = conexion.prepareStatement(sql_DELETE_Lineas_facturas);
         preparedstatement.setInt(1, id);
         realizado2 = preparedstatement.executeUpdate();
-        preparedstatement = Conexion.getConnection().prepareStatement(sql_DELETE);
+        preparedstatement = conexion.prepareStatement(sql_DELETE);
         preparedstatement.setInt(1, id);
         realizado = preparedstatement.executeUpdate();
         return (realizado > 0) && (realizado2 > 0);
@@ -433,7 +434,7 @@ public class FacturasDAO implements GenericoDAO<Facturas> {
 
     public List<String> findAll_formas_pago() throws SQLException, Exception {
         List<String> formas_pago = new ArrayList();
-        preparedstatement = Conexion.getConnection().prepareStatement("SELECT DISTINCT formapago FROM "
+        preparedstatement = conexion.prepareStatement("SELECT DISTINCT formapago FROM "
                 + Conexion.nombre_base_datos
                 + ".facturas");
         ResultSet resultSet = preparedstatement.executeQuery();

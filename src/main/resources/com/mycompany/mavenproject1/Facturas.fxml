@@ -18,7 +18,7 @@
       <AnchorPane prefHeight="693.0" prefWidth="838.0">
          <children>
             <TableView fx:id="facturas" layoutX="5.0" layoutY="273.0" onMouseClicked="#poner_datos" prefHeight="282.0" prefWidth="827.0" />
-            <Button id="Pantalla_Consultas" layoutX="313.0" layoutY="562.0" mnemonicParsing="false" onAction="#Cambiar_Pantalla" text="Consultar" />
+            <Button id="Pantalla_Consultas" fx:id="boton_consultar" layoutX="313.0" layoutY="562.0" mnemonicParsing="false" onAction="#Cambiar_Pantalla" text="Consultar" />
             <Label fx:id="Articulo" layoutX="5.0" layoutY="608.0" text="Articulo" />
             <ComboBox id="articulos" fx:id="cambiar_articulo" layoutX="66.0" layoutY="603.0" onMouseClicked="#actualizar_articulos" prefWidth="150.0" />
             <Label alignment="CENTER" layoutX="13.0" layoutY="7.0" prefHeight="44.0" prefWidth="746.0" text="FACTURAS" textAlignment="CENTER">

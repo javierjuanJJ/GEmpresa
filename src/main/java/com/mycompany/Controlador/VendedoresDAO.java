@@ -1,6 +1,7 @@
 package com.mycompany.Controlador;
 
 import com.mycompany.Modelo.Vendedores;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -14,10 +15,10 @@ public class VendedoresDAO implements GenericoDAO<Vendedores> {
                 + ".vendedores;";
 	
 	public static PreparedStatement preparedstatement = null;
-	
+	private static Connection conexion;
 	public VendedoresDAO() {
 		try {
-			Conexion.getConnection();
+			conexion = Conexion.getConnection();
 			
 		} catch (Exception e) {
 			
@@ -28,7 +29,7 @@ public class VendedoresDAO implements GenericoDAO<Vendedores> {
 	public List<Vendedores> findAll() throws Exception {
 		List<Vendedores> Vendedores =  new ArrayList();
 		ResultSet resultset = null;
-		preparedstatement = Conexion.getConnection().prepareStatement(sql_select_all);
+		preparedstatement = conexion.prepareStatement(sql_select_all);
 		resultset = preparedstatement.executeQuery();
 		
 		while (resultset.next()) {

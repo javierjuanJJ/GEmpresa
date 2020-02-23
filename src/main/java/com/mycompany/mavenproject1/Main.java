@@ -2,8 +2,8 @@ package com.mycompany.mavenproject1;
 	
 import java.io.IOException;
 
-import com.mycompany.Controlador.ArticulosDAO;
-import com.mycompany.Controlador.ClientesDAO;
+import com.mycompany.dao.ArticulosDAO;
+import com.mycompany.dao.ClientesDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;

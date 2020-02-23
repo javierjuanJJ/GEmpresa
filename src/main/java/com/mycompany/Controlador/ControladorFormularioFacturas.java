@@ -1,5 +1,9 @@
 package com.mycompany.Controlador;
 
+import com.mycompany.dao.ArticulosDAO;
+import com.mycompany.dao.ClientesDAO;
+import com.mycompany.dao.VendedoresDAO;
+import com.mycompany.dao.FacturasDAO;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -220,35 +224,25 @@ public class ControladorFormularioFacturas {
             delante_del_todo_lineas_facturas.setVisible(es_admin);
             buscar_facturas.setVisible(es_admin);
             ComboBox_Facturas.setVisible(es_admin);
-            boton_consultar.setVisible(es_admin);
 
             Cargar_facturas();
 
-            if (es_admin) {
-                Lista_de_Articulos = controladorArticulos.findAll();
-                Lista_de_Vendedores = controladorVendedores.findAll();
-                Lista_de_Clientes = controladorclientes.findAll();
-                Lista_de_formas_de_pago = controladorfacturas.findAll_formas_pago();
+            Lista_de_Articulos = controladorArticulos.findAll();
+            Lista_de_Vendedores = controladorVendedores.findAll();
+            Lista_de_Clientes = controladorclientes.findAll();
+            Lista_de_formas_de_pago = controladorfacturas.findAll_formas_pago();
 
-                try {
+            try {
 
-                    Lista_de_Facturas.clear();
-                    Lista_de_Facturas.addAll(controladorfacturas.findAll2(Lista_de_Clientes.get(0)));
-                    contador_modificador = 0;
-                    poner_datos();
-                    actualizar();
-
-                } catch (Exception e) {
-                    poner_datos_en_la_tabla(new Facturas());
-                    (new Main()).mensajeExcepcion(e, e.getMessage());
-                }
-
-            } else {
-
+                Lista_de_Facturas.clear();
+                Lista_de_Facturas.addAll((es_admin) ? controladorfacturas.findAll() : controladorfacturas.findAll2(ControladorPrincipio.cliente_actual));
                 contador_modificador = 0;
-                facturas.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                 poner_datos();
                 actualizar();
+
+            } catch (Exception e) {
+                poner_datos_en_la_tabla(new Facturas());
+                (new Main()).mensajeExcepcion(e, e.getMessage());
             }
             calcular_total();
         } catch (Exception e) {
@@ -257,15 +251,15 @@ public class ControladorFormularioFacturas {
         }
 
     }
-    
-    public void calcular_total(){
+
+    public void calcular_total() {
         label_informacion.setText("Factura " + contador_modificador + " de " + Lista_de_Facturas.size() + " facturas");
         double total = 0.0;
-            for (int contador =0; contador < Lista_de_Facturas.size(); contador++) {
-                Lista_de_Facturas.get(contador).calcular_total_factura();
-                total += Lista_de_Facturas.get(contador).getTotal();
-            }
-            total_todas_las_facturas.setText("Total de todas las facturas " + total + " euros.");
+        for (int contador = 0; contador < Lista_de_Facturas.size(); contador++) {
+            Lista_de_Facturas.get(contador).calcular_total_factura();
+            total += Lista_de_Facturas.get(contador).getTotal();
+        }
+        total_todas_las_facturas.setText("Total de todas las facturas " + total + " euros.");
     }
 
     private void Cargar_facturas() {
@@ -396,12 +390,16 @@ public class ControladorFormularioFacturas {
             TableColumn<Vendedores, Facturas> importe = new TableColumn<>("Vendedor");
             importe.setCellValueFactory(new PropertyValueFactory<>("vendedor"));
 
-            TableColumn<String, Facturas> total_producto = new TableColumn<>("Forma de pago");
-            total_producto.setCellValueFactory(new PropertyValueFactory<>("forma_de_pago"));
-            facturas.getColumns().addAll(linea, articulo, cantidad, importe, total_producto);
+            TableColumn<String, Facturas> forma_de_pago = new TableColumn<>("Forma de pago");
+            forma_de_pago.setCellValueFactory(new PropertyValueFactory<>("forma_de_pago"));
+            
+            TableColumn<String, Facturas> total = new TableColumn<>("Total");
+            total.setCellValueFactory(new PropertyValueFactory<>("total"));
+            facturas.getColumns().addAll(linea, articulo, cantidad, importe, forma_de_pago,total);
             facturas.getSelectionModel().clearAndSelect(contador_modificador_lineas);
 
             for (Facturas Factura : Lista_de_Facturas) {
+                Factura.calcular_total_factura();
                 facturas.getItems().add(Factura);
             }
             facturas.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

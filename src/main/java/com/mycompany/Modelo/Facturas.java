@@ -3,7 +3,7 @@ package com.mycompany.Modelo;
 import java.util.Date;
 import java.util.ArrayList;
 
-public class Facturas {
+public class Facturas implements Comparable {
 
     private int id;
     private Date fecha;
@@ -150,6 +150,14 @@ public class Facturas {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int compareTo(Object arg0) {
+        this.calcular_total_factura();
+        Facturas factura = (Facturas) arg0;
+        factura.calcular_total_factura();
+        return (int) (this.getTotal()-factura.getTotal());
     }
     
     

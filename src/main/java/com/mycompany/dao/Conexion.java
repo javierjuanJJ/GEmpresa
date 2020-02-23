@@ -1,4 +1,4 @@
-package com.mycompany.Controlador;
+package com.mycompany.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,7 @@ import java.util.TimeZone;
 
 public class Conexion {
     private static Connection conexion = null;
-    static final String nombre_base_datos = "v_empresa_ad_p1";
+    public static final String nombre_base_datos = "v_empresa_ad_p1";
     static final String ip_base_datos = "127.0.0.1";
     static final String url = "jdbc:mariadb://"
             + ip_base_datos

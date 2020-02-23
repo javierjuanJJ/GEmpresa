@@ -1,5 +1,6 @@
 package com.mycompany.Controlador;
 
+import com.mycompany.dao.ArticulosDAO;
 import com.mycompany.Modelo.Articulos;
 import com.mycompany.Modelo.Grupos;
 import java.io.BufferedReader;

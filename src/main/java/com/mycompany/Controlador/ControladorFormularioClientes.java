@@ -1,5 +1,6 @@
 package com.mycompany.Controlador;
 
+import com.mycompany.dao.ClientesDAO;
 import com.mycompany.Modelo.Clientes;
 import java.io.IOException;
 import java.sql.Connection;

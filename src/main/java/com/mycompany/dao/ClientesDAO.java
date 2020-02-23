@@ -1,5 +1,7 @@
-package com.mycompany.Controlador;
+package com.mycompany.dao;
 
+import com.mycompany.dao.Conexion;
+import com.mycompany.dao.GenericoDAO;
 import com.mycompany.Modelo.Clientes;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;

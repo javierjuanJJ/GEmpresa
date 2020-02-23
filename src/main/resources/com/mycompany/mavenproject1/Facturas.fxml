@@ -46,14 +46,15 @@
                   <Label text=" Lineas facturas" />
                </children>
             </HBox>
-            <GridPane layoutX="13.0" layoutY="48.0" prefHeight="171.0" prefWidth="739.0">
+            <GridPane layoutX="13.0" layoutY="48.0" prefHeight="171.0" prefWidth="820.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="106.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.0" minWidth="10.0" prefWidth="120.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="10.0" prefWidth="91.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="274.0" minWidth="10.0" prefWidth="122.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="266.0" minWidth="10.0" prefWidth="107.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="217.0" minWidth="10.0" prefWidth="192.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="274.0" minWidth="10.0" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="266.0" minWidth="10.0" prefWidth="99.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="263.0" minWidth="10.0" prefWidth="219.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="217.0" minWidth="10.0" prefWidth="75.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -86,6 +87,7 @@
                   <Button fx:id="buscar_facturas" mnemonicParsing="false" onAction="#buscar_facturas_por_cliente" text="Buscar facturas" GridPane.columnIndex="5" GridPane.rowIndex="2" />
                   <ComboBox fx:id="clientes_buscar" onMouseClicked="#actualizar_cliente" prefWidth="150.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                   <Label fx:id="buscar_facturas_texto" text="Buscar facturas de un cliente" GridPane.columnIndex="5" />
+                  <Button fx:id="buscar_todas_las_facturas" mnemonicParsing="false" onAction="#buscar_todas_facturas_por_cliente" text="Todos" GridPane.columnIndex="6" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <Button fx:id="boton_actualizar" layoutX="452.0" layoutY="240.0" mnemonicParsing="false" onAction="#actualizar_linea" text="Actualizar" />
@@ -95,6 +97,8 @@
             <Button fx:id="eliminar_linea_boton" layoutX="524.0" layoutY="603.0" mnemonicParsing="false" onAction="#eliminar_linea_a_factura_existente" text="Eliminar línea" />
             <Button fx:id="insertar_linea" layoutX="224.0" layoutY="240.0" mnemonicParsing="false" onAction="#insertar_factura" text="Insertar factura" />
             <Button fx:id="eliminar_linea" layoutX="639.0" layoutY="240.0" mnemonicParsing="false" onAction="#eliminar_factura" text="Eliminar" />
+            <Label fx:id="label_informacion" layoutX="7.0" layoutY="647.0" prefHeight="16.0" prefWidth="338.0" text="Label" />
+            <Label fx:id="total_todas_las_facturas" layoutX="440.0" layoutY="647.0" prefHeight="16.0" prefWidth="371.0" text="Label" />
          </children>
       </AnchorPane>
    </children>

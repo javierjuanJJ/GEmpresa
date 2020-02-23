@@ -74,6 +74,8 @@ public class ControladorFormularioArticulos {
     private TextField TextField_buscar_por_id_articulos;
     @FXML
     private TextField stock;
+    @FXML
+    private Label label_informacion;
 
     @FXML
     public void initialize() {
@@ -84,6 +86,7 @@ public class ControladorFormularioArticulos {
             Lista_de_grupos = controladorarticulos.findAll_grupos();
             ComboBox_id_articulos.getItems().setAll(Lista_de_articulos);
             poner_informacion(Lista_de_articulos.get(0));
+            label_informacion.setText("Registro " + 1 + " de " + Lista_de_articulos.size());
         } catch (Exception e) {
 
             Platform.exit();
@@ -197,7 +200,7 @@ public class ControladorFormularioArticulos {
         try {
             articulo_seleccionado = controladorarticulos.findByPK(Integer.parseInt(TextField_buscar_por_id_articulos.getText()));
             ComboBox_id_articulos.getSelectionModel().select(articulo_seleccionado);
-
+            label_informacion.setText("Registro " + (Lista_de_articulos.indexOf(articulo_seleccionado) + 1) + " de " + Lista_de_articulos.size());
         } catch (Exception e) {
             poner_informacion(new Articulos());
         }
@@ -303,7 +306,7 @@ public class ControladorFormularioArticulos {
             articulo = Lista_de_articulos.get(posicion);
             ComboBox_id_articulos.getSelectionModel().select(posicion);
             poner_informacion(articulo);
-
+            label_informacion.setText("Registro " + posicion + " de " + Lista_de_articulos.size());
         } catch (Exception e) {
             posicion = 0;
         }

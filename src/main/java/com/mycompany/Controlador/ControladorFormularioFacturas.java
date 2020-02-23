@@ -158,12 +158,19 @@ public class ControladorFormularioFacturas {
     private Button delante_del_todo_lineas_facturas;
     @FXML
     private Button boton_consultar;
+    @FXML
+    private Button buscar_todas_las_facturas;
+    @FXML
+    private Label label_informacion;
+    @FXML
+    private Label total_todas_las_facturas;
 
     @FXML
     public void initialize() {
 
         try {
-            cliente_actual = ControladorPrincipio.cliente_actual;
+            Clientes cliente_ver_facturas = ControladorFormularioClientes.cliente_ver_facturas;
+            cliente_actual = cliente_ver_facturas != null ? cliente_ver_facturas : ControladorPrincipio.cliente_actual;
             controladorfacturas = new FacturasDAO();
             controladorclientes = new ClientesDAO();
             controladorArticulos = new ArticulosDAO();
@@ -194,6 +201,7 @@ public class ControladorFormularioFacturas {
 
             Articulo.setVisible(es_admin);
             cambiar_articulo.setVisible(es_admin);
+            buscar_todas_las_facturas.setVisible(es_admin);
             Cantidad.setVisible(es_admin);
             cambiar_cantidad.setVisible(es_admin);
             boton_actualizar.setVisible(es_admin);
@@ -242,12 +250,22 @@ public class ControladorFormularioFacturas {
                 poner_datos();
                 actualizar();
             }
-
+            calcular_total();
         } catch (Exception e) {
             (new Main()).mensajeExcepcion(e, e.getMessage());
             Platform.exit();
         }
 
+    }
+    
+    public void calcular_total(){
+        label_informacion.setText("Factura " + contador_modificador + " de " + Lista_de_Facturas.size() + " facturas");
+        double total = 0.0;
+            for (int contador =0; contador < Lista_de_Facturas.size(); contador++) {
+                Lista_de_Facturas.get(contador).calcular_total_factura();
+                total += Lista_de_Facturas.get(contador).getTotal();
+            }
+            total_todas_las_facturas.setText("Total de todas las facturas " + total + " euros.");
     }
 
     private void Cargar_facturas() {
@@ -263,6 +281,7 @@ public class ControladorFormularioFacturas {
         String id_boton = "";
         id_boton = ((Button) action.getSource()).getId();
         Main main = new Main();
+        ControladorFormularioClientes.cliente_ver_facturas = null;
         main.Cambiar_Pantalla(id_boton);
     }
 
@@ -562,6 +581,7 @@ public class ControladorFormularioFacturas {
 
         factura(factura);
         poner_datos_en_la_tabla(factura);
+        calcular_total();
     }
 
     private void factura(Facturas factura) {
@@ -756,7 +776,7 @@ public class ControladorFormularioFacturas {
             poner_datos();
             actualizar();
             poner_datos_en_la_tabla(Lista_de_Facturas.get(contador_modificador));
-
+            calcular_total();
         } catch (Exception e) {
 
         }
@@ -785,7 +805,7 @@ public class ControladorFormularioFacturas {
             poner_datos();
             actualizar();
 
-            //poner_datos_en_la_tabla(Lista_de_Facturas.get(contador_modificador));
+            calcular_total();
         } catch (Exception e) {
             (new Main()).mensajeExcepcion(e, e.getMessage());
         }
@@ -849,6 +869,7 @@ public class ControladorFormularioFacturas {
 
             Cargar_facturas();
             poner_datos_en_la_tabla(Lista_de_Facturas.get(contador_modificador));
+            calcular_total();
         } catch (Exception e) {
             (new Main()).mensajeExcepcion(e, e.getMessage());
         }
@@ -880,8 +901,28 @@ public class ControladorFormularioFacturas {
                 (new Main()).mensajeConfirmacion("Eliminacion de facturas completada", "", "");
                 Cargar_facturas();
                 poner_datos_en_la_tabla(Lista_de_Facturas.get(contador_modificador));
+                calcular_total();
             }
 
+        } catch (Exception e) {
+            (new Main()).mensajeExcepcion(e, e.getMessage());
+        }
+    }
+
+    public void buscar_todas_facturas_por_cliente() {
+        try {
+            List<Facturas> facturas_lista = controladorfacturas.findAll();
+            if (!facturas_lista.isEmpty()) {
+                Lista_de_Facturas.clear();
+                Lista_de_Facturas.addAll(facturas_lista);
+                contador_modificador = 0;
+                poner_datos();
+                actualizar();
+                calcular_total();
+            } else {
+                throw new Exception("Error. El usuario " + clientes_buscar.getSelectionModel().getSelectedItem().getNombre() + " no tiene facturas. Inserte una factura e intentelo de nuevo.");
+            }
+            label_informacion.setText("Factura " + contador_modificador + " de " + Lista_de_Facturas.size() + " facturas");
         } catch (Exception e) {
             (new Main()).mensajeExcepcion(e, e.getMessage());
         }
@@ -896,10 +937,11 @@ public class ControladorFormularioFacturas {
                 contador_modificador = 0;
                 poner_datos();
                 actualizar();
+                calcular_total();
             } else {
                 throw new Exception("Error. El usuario " + clientes_buscar.getSelectionModel().getSelectedItem().getNombre() + " no tiene facturas. Inserte una factura e intentelo de nuevo.");
             }
-
+            label_informacion.setText("Factura " + contador_modificador + " de " + Lista_de_Facturas.size() + " facturas");
         } catch (Exception e) {
             (new Main()).mensajeExcepcion(e, e.getMessage());
         }

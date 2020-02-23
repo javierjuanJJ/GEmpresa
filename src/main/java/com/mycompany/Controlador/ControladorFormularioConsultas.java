@@ -26,10 +26,6 @@ public class ControladorFormularioConsultas {
     @FXML
     private TableView tabla_consulta;
     @FXML
-    private TableView tabla_consulta1;
-    @FXML
-    private TableView tabla_consulta2;
-    @FXML
     private Button boton_consultar;
     @FXML
     private Button boton_reiniciar_por_defecto;
@@ -102,8 +98,6 @@ public class ControladorFormularioConsultas {
             this.checkbox_vendedor_hasta.setVisible(es_admin);
             cliente.setVisible(es_admin);
             vendedor.setVisible(es_admin);
-            this.tabla_consulta1.setVisible(es_admin);
-            this.tabla_consulta2.setVisible(es_admin);
             iniciar_datos();
 
         } catch (Exception e) {
@@ -174,24 +168,14 @@ public class ControladorFormularioConsultas {
     public void coordinar() {
 
         int seleccionado_tabla_1 = (tabla_consulta.getSelectionModel().getSelectedIndex());
-        int seleccionado_tabla_2 = (tabla_consulta1.getSelectionModel().getSelectedIndex());
-        int seleccionado_tabla_3 = (tabla_consulta2.getSelectionModel().getSelectedIndex());
 
         int posicion = -1;
 
         if (seleccionado_tabla_1 >= 0) {
             posicion = seleccionado_tabla_1;
             tabla_consulta.getSelectionModel().clearSelection();
-        } else if (seleccionado_tabla_2 >= 0) {
-            posicion = seleccionado_tabla_2;
-            tabla_consulta1.getSelectionModel().clearSelection();
-        } else if (seleccionado_tabla_3 >= 0) {
-            posicion = seleccionado_tabla_3;
-            tabla_consulta2.getSelectionModel().clearSelection();
         }
         tabla_consulta.scrollTo(posicion);
-        tabla_consulta1.scrollTo(posicion);
-        tabla_consulta2.scrollTo(posicion);
 
     }
 
@@ -205,12 +189,6 @@ public class ControladorFormularioConsultas {
             String part = "";
             tabla_consulta.getItems().clear();
             tabla_consulta.getColumns().clear();
-
-            tabla_consulta1.getItems().clear();
-            tabla_consulta1.getColumns().clear();
-
-            tabla_consulta2.getItems().clear();
-            tabla_consulta2.getColumns().clear();
 
             List<Facturas> Facturas_recibidas = null;
             Facturas_recibidas = new ArrayList<Facturas>();
@@ -272,7 +250,6 @@ public class ControladorFormularioConsultas {
 
             double numero_desde = 0.0;
             double numero_hasta = 0.0;
-            @SuppressWarnings("static-access")
             ArrayList campos = controladorfacturas.campos;
             Facturas_recibidas.addAll(controladorfacturas.findBySQL(query.toString()));
 
@@ -280,15 +257,8 @@ public class ControladorFormularioConsultas {
                 for (int contador = 0; contador < 3; contador++) {
                     tabla_consulta.getColumns().add(new TableColumn<Facturas, String>(campos.get(contador).toString()));
                 }
-
-                for (int contador = 0; contador < 2; contador++) {
-                    tabla_consulta1.getColumns().add(new TableColumn<Vendedores, String>(campos.get(contador).toString()));
-                }
-
-                for (int contador = 0; contador < 2; contador++) {
-                    tabla_consulta2.getColumns()
-                            .add(new TableColumn<Clientes, String>(campos.get(contador).toString()));
-                }
+                tabla_consulta.getColumns().add(new TableColumn<Facturas, String>("Cliente"));
+                tabla_consulta.getColumns().add(new TableColumn<Facturas, String>("Vendedor"));
                 //System.out.println(FacturasDAO.campos.get(0));
                 ((TableColumn<Facturas, String>) tabla_consulta.getColumns().get(0))
                         .setCellValueFactory(new PropertyValueFactory<>(FacturasDAO.campos.get(0)));
@@ -297,15 +267,11 @@ public class ControladorFormularioConsultas {
                 ((TableColumn<Facturas, String>) tabla_consulta.getColumns().get(2))
                         .setCellValueFactory(new PropertyValueFactory<>(FacturasDAO.campos.get(2)));
 //System.out.println(FacturasDAO.campos.get(3));
-                ((TableColumn<Clientes, String>) tabla_consulta1.getColumns().get(0))
-                        .setCellValueFactory(new PropertyValueFactory<>("id"));
-                ((TableColumn<Clientes, String>) tabla_consulta1.getColumns().get(1))
-                        .setCellValueFactory(new PropertyValueFactory<>(FacturasDAO.campos.get(4)));
+                ((TableColumn<Facturas, Clientes>) tabla_consulta.getColumns().get(3))
+                        .setCellValueFactory(new PropertyValueFactory<>("cliente"));
+                ((TableColumn<Facturas, Vendedores>) tabla_consulta.getColumns().get(4))
+                        .setCellValueFactory(new PropertyValueFactory<>("vendedor"));
 //System.out.println(FacturasDAO.campos.get(5));
-                ((TableColumn<Vendedores, String>) tabla_consulta2.getColumns().get(0))
-                        .setCellValueFactory(new PropertyValueFactory<>("id"));
-                ((TableColumn<Vendedores, String>) tabla_consulta2.getColumns().get(1))
-                        .setCellValueFactory(new PropertyValueFactory<>(FacturasDAO.campos.get(6)));
 
                 boolean cantidad = this.checkbox_cantidad.isSelected();
                 if (cantidad) {
@@ -316,8 +282,6 @@ public class ControladorFormularioConsultas {
                         factura.calcular_total_factura();
                         if (((factura.getTotal() >= numero_desde) && (factura.getTotal() <= numero_hasta))) {
                             tabla_consulta.getItems().add(factura);
-                            tabla_consulta1.getItems().add(factura.getCliente());
-                            tabla_consulta2.getItems().add(factura.getVendedor());
                         }
                     }
                 } else {
@@ -325,13 +289,9 @@ public class ControladorFormularioConsultas {
                         Facturas factura = new Facturas(Facturas_recibidas.get(contador));
                         factura.calcular_total_factura();
                         tabla_consulta.getItems().add(factura);
-                        tabla_consulta1.getItems().add(factura.getCliente());
-                        tabla_consulta2.getItems().add(factura.getVendedor());
                     }
                 }
                 tabla_consulta.refresh();
-                tabla_consulta1.refresh();
-                tabla_consulta2.refresh();
             } else {
                 for (int contador = 0; contador < 3; contador++) {
                     tabla_consulta.getColumns().add(new TableColumn<String, String>(campos.get(contador).toString()));
@@ -377,32 +337,32 @@ public class ControladorFormularioConsultas {
             Facturas factura_del_final = null;
 
             String campos_otros_admin = ""
-                + Conexion.nombre_base_datos
-                + ".facturas.id as id, "
-                + Conexion.nombre_base_datos
-                + ".facturas.fecha as fecha, '' as total";
+                    + Conexion.nombre_base_datos
+                    + ".facturas.id as id, "
+                    + Conexion.nombre_base_datos
+                    + ".facturas.fecha as fecha, '' as total";
             String campos_admin = ""
-                + Conexion.nombre_base_datos
-                + ".facturas.id as id, "
-                + Conexion.nombre_base_datos
-                + ".facturas.fecha as fecha, '' as total, "
-                + Conexion.nombre_base_datos
-                + ".clientes.id as cliente, "
-                + Conexion.nombre_base_datos
-                + ".clientes.nombre as nombre, "
-                + Conexion.nombre_base_datos
-                + ".vendedores.id as vendedor, "
-                + Conexion.nombre_base_datos
-                + ".vendedores.nombre as nombre";
+                    + Conexion.nombre_base_datos
+                    + ".facturas.id as id, "
+                    + Conexion.nombre_base_datos
+                    + ".facturas.fecha as fecha, '' as total, "
+                    + Conexion.nombre_base_datos
+                    + ".clientes.id as cliente, "
+                    + Conexion.nombre_base_datos
+                    + ".clientes.nombre as nombre, "
+                    + Conexion.nombre_base_datos
+                    + ".vendedores.id as vendedor, "
+                    + Conexion.nombre_base_datos
+                    + ".vendedores.nombre as nombre";
 
             String principio_sql = "SELECT " + ((es_admin) ? campos_admin : campos_otros_admin)
                     + " FROM "
-                + Conexion.nombre_base_datos
-                + ".facturas, " + ""
-                + Conexion.nombre_base_datos
-                + ".clientes , " + ""
-                + Conexion.nombre_base_datos
-                + ".vendedores "
+                    + Conexion.nombre_base_datos
+                    + ".facturas, " + ""
+                    + Conexion.nombre_base_datos
+                    + ".clientes , " + ""
+                    + Conexion.nombre_base_datos
+                    + ".vendedores "
                     + "WHERE facturas.cliente=clientes.id " + "AND facturas.vendedor=vendedores.id ";
             StringBuilder query_principio = new StringBuilder(principio_sql);
             StringBuilder query_final = new StringBuilder(principio_sql);
@@ -410,37 +370,37 @@ public class ControladorFormularioConsultas {
             String modificador_sql_min = "MIN";
             String part_min = (!es_admin)
                     ? "AND facturas.id= " + "(SELECT MIN("
-                + Conexion.nombre_base_datos
-                + ".facturas.id) FROM "
+                    + Conexion.nombre_base_datos
+                    + ".facturas.id) FROM "
                     + ""
-                + Conexion.nombre_base_datos
-                + ".facturas,"
-                + Conexion.nombre_base_datos
-                + " "
+                    + Conexion.nombre_base_datos
+                    + ".facturas,"
+                    + Conexion.nombre_base_datos
+                    + " "
                     + "WHERE facturas.cliente=clientes.id and clientes.id=" + cliente_actual.getId() + ") "
                     : "AND facturas.id=(SELECT " + modificador_sql_min + "("
-                + Conexion.nombre_base_datos
-                + ".facturas.id) "
+                    + Conexion.nombre_base_datos
+                    + ".facturas.id) "
                     + "FROM "
-                + Conexion.nombre_base_datos
-                + ".facturas) ";
+                    + Conexion.nombre_base_datos
+                    + ".facturas) ";
 
             String part_max = (!es_admin)
                     ? "AND facturas.id= " + "(SELECT MAX("
-                + Conexion.nombre_base_datos
-                + ".facturas.id) FROM "
+                    + Conexion.nombre_base_datos
+                    + ".facturas.id) FROM "
                     + ""
-                + Conexion.nombre_base_datos
-                + ".facturas,"
-                + Conexion.nombre_base_datos
-                + ".clientes "
+                    + Conexion.nombre_base_datos
+                    + ".facturas,"
+                    + Conexion.nombre_base_datos
+                    + ".clientes "
                     + "WHERE facturas.cliente=clientes.id and clientes.id=" + cliente_actual.getId() + ") "
                     : "AND facturas.id=(SELECT " + modificador_sql_max + "("
-                + Conexion.nombre_base_datos
-                + ".facturas.id) "
+                    + Conexion.nombre_base_datos
+                    + ".facturas.id) "
                     + "FROM "
-                + Conexion.nombre_base_datos
-                + ".facturas) ";
+                    + Conexion.nombre_base_datos
+                    + ".facturas) ";
 
             query_principio.append(part_min);
             query_final.append(part_max);

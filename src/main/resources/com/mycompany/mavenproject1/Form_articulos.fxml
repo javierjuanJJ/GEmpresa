@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="574.0" prefWidth="639.0" stylesheets="@dao.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.Controlador.ControladorFormularioArticulos">
+<AnchorPane prefHeight="574.0" prefWidth="639.0" stylesheets="@dao.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.Controlador.ControladorFormularioArticulos">
    <children>
       <AnchorPane prefHeight="574.0" prefWidth="639.0" styleClass="fondo_articulos" stylesheets="@dao.css">
          <children>
@@ -64,6 +64,7 @@
             <Button layoutX="360.0" layoutY="168.0" mnemonicParsing="false" onAction="#Importar" text="Importar articulos de un archivo" />
             <TextField fx:id="stock" layoutX="95.0" layoutY="309.0" />
             <Label layoutX="6.0" layoutY="314.0" text="Stock" />
+            <Label fx:id="label_informacion" layoutX="282.0" layoutY="519.0" text="Label" />
          </children>
       </AnchorPane>
    </children>

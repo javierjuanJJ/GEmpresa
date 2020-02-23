@@ -39,7 +39,11 @@ public class ControladorFormularioClientes {
     private Button boton_atras_clientes;
     @FXML
     private Button boton_buscar_por_id_clientes;
-
+    @FXML
+    private Button boton_buscar;
+    @FXML
+    private Label label_informacion;
+    private static boolean es_admin;
     @FXML
     private Button siguiente_clientes;
     @FXML
@@ -48,7 +52,8 @@ public class ControladorFormularioClientes {
     private Button ultimo_clientes;
     @FXML
     private Button primero_clientes;
-
+    private static Clientes cliente_actual;
+    public static Clientes cliente_ver_facturas;
     @FXML
     private ComboBox<Clientes> ComboBox_id_clientes;
     @FXML
@@ -62,12 +67,16 @@ public class ControladorFormularioClientes {
     public void initialize() {
 
         try {
+            cliente_actual = ControladorPrincipio.cliente_actual;
+            es_admin = (cliente_actual.getId() == 1);
+            boton_buscar.setVisible(es_admin);
             controladorclientes = new ClientesDAO();
             Lista_de_clientes = controladorclientes.findAll();
             Clientes cliente = Lista_de_clientes.get(0);
             ComboBox_id_clientes.getItems().addAll(Lista_de_clientes);
             ComboBox_id_clientes.getSelectionModel().select(0);
             poner_informacion(cliente);
+            label_informacion.setText("Registro " + 1 + " de " + Lista_de_clientes.size());
         } catch (Exception e) {
             (new Main()).mensajeExcepcion(e, e.getMessage());
             Platform.exit();
@@ -80,6 +89,17 @@ public class ControladorFormularioClientes {
         id_boton = ((Button) action.getSource()).getId();
         Main main = new Main();
         main.Cambiar_Pantalla(id_boton);
+    }
+    
+    public void cambiar_a_facturas() {
+
+        try {
+            cliente_ver_facturas = ComboBox_id_clientes.getSelectionModel().getSelectedItem();
+            new Main().Cambiar_Pantalla("Pantalla_Facturas");
+        } catch (Exception e) {
+            (new Main()).mensajeExcepcion(e, e.getMessage());
+        }
+
     }
 
     public void actualizar_informacion_clientes() {
@@ -169,6 +189,7 @@ public class ControladorFormularioClientes {
         try {
             cliente_seleccionado = controladorclientes.findByPK(Integer.parseInt(TextField_buscar_por_id_clientes.getText()));
             ComboBox_id_clientes.getSelectionModel().select(cliente_seleccionado);
+            label_informacion.setText("Registro " + (Lista_de_clientes.indexOf(cliente_seleccionado) + 1) + " de " + Lista_de_clientes.size());
         } catch (Exception e) {
             cliente_seleccionado = new Clientes();
             (new Main()).mensajeExcepcion(e, e.getMessage());
@@ -253,7 +274,7 @@ public class ControladorFormularioClientes {
             cliente = Lista_de_clientes.get(posicion);
             ComboBox_id_clientes.getSelectionModel().select(posicion);
             poner_informacion(cliente);
-
+            label_informacion.setText("Registro " + (posicion + 1) + " de " + Lista_de_clientes.size());
         } catch (Exception e) {
             posicion = 0;
         }
